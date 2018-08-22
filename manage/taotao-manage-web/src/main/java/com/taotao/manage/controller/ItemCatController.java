@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,12 @@ public class ItemCatController {
     @Autowired
     private ItemCatService itemCatService;
 
+    /**
+     * @Description 根据父ID查询商品类目集合
+     * @Date 23:47
+     * @Param [pid]
+     * @return org.springframework.http.ResponseEntity<java.util.List<com.taotao.manage.pojo.ItemCat>>
+     **/
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<ItemCat>> queryItemCatByPid(@RequestParam(value = "id",defaultValue = "0") Long pid){
         try {
@@ -34,5 +38,14 @@ public class ItemCatController {
             e.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+
+    @RequestMapping(value = "/getCname/{cid}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getCname(@PathVariable("cid") Long cid){
+        ItemCat itemCat = new ItemCat();
+        itemCat.setId(cid);
+        ItemCat itemCat1 = itemCatService.queryById(cid);
+        return ResponseEntity.ok(itemCat1.getName());
     }
 }

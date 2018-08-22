@@ -4,17 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<plugins>
-		<!--通用mapper-->
-		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
-			<property name="IDENTITY" value="MYSQL"/>
-			<property name="mappers" value="com.github.abel533.mapper.Mapper"/>
-		</plugin>
+		<!--先配置分页助手后配置通用mapper否则会报错-->
 		<!--分也助手-->
 		<plugin interceptor="com.github.pagehelper.PageHelper">
 			<property name="dialect" value="mysql"/>
 			<property name="rowBoundsWithCount" value="true"/>
 		</plugin>
-
+		<!--通用mapper-->
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			<property name="IDENTITY" value="MYSQL"/>
+			<property name="mappers" value="com.github.abel533.mapper.Mapper"/>
+		</plugin>
 
 	</plugins>
 </configuration>

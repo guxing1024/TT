@@ -5,13 +5,16 @@ import com.github.abel533.mapper.Mapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.manage.pojo.BasePojo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
 
 public abstract class BaseService <T extends BasePojo> {
 
-    public abstract Mapper<T> getMapper();
+   // public abstract Mapper<T> getMapper();
+    @Autowired
+    private Mapper<T> mapper;
 
     /**
      * 方法：
@@ -144,4 +147,7 @@ public abstract class BaseService <T extends BasePojo> {
         return this.getMapper().delete(record);
     }
 
+    public Mapper<T> getMapper() {
+        return mapper;
+    }
 }

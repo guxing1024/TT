@@ -31,6 +31,19 @@
     	ids = ids.join(",");
     	return ids;
     }
+
+    function getCname(cid,cname) {
+        $.ajax({
+            url:'/rest/item/cat/getCname/'+cid,
+            type:"GET",
+            dataType:"json",
+            async : false,
+            success(data){
+                console.info("data=" +data);
+                cname = data;
+            }
+        })
+    }
     
     var toolbar = [{
         text:'新增',
@@ -91,10 +104,13 @@
         					 $("#itemeEditForm .params td").eq(1).html(html);
         				}
         			});
-        			
+        			var cname="";
+                    getCname(data.cid, cname);
+                    console.info("cname=" + cname);
         			TAOTAO.init({
         				"pics" : data.image,
         				"cid" : data.cid,
+                        "cname" : cname,
         				fun:function(node){
         					TAOTAO.changeItemParam(node, "itemeEditForm");
         				}
@@ -169,4 +185,5 @@
         	});
         }
     }];
+
 </script>
