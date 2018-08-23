@@ -105,15 +105,22 @@
 		   type: "PUT",
 		   url: "/rest/item",
 		   data: $("#itemeEditForm").serialize(),
-		   success: function(msg){
-			   $.messager.alert('提示','修改商品成功!','info',function(){
-					$("#itemEditWindow").window('close');
-					$("#itemList").datagrid("reload");
-				});
-		   },
-		   error: function(){
-			   $.messager.alert('提示','修改商品失败!');
-		   }
+           statusCode:{
+		       204:function(msg){
+                   $.messager.alert('提示','修改商品成功!','info',function(){
+                       $("#itemEditWindow").window('close');
+                       $("#itemList").datagrid("reload");
+                   });
+               },
+               400 : function (msg) {
+                   $.messager.alert('提示','商品参数异常!');
+               },
+               500 : function (msg) {
+                   $.messager.alert('提示','修改商品失败!');
+               }
+
+           }
+
 		});
 	}
 </script>

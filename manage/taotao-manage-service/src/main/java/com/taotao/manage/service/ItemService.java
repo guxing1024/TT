@@ -37,7 +37,7 @@ public class ItemService extends BaseService<Item> {
         itemDesc.setItemId(item.getId());
         itemDesc.setItemDesc(desc);
         Integer count2 = itemDescService.saveSelective(itemDesc);
-        return count1.intValue() == 1 && count2.intValue() == 2;
+        return count1.intValue() == 1 && count2.intValue() == 1;
     }
 
     /**
@@ -55,5 +55,14 @@ public class ItemService extends BaseService<Item> {
         List<Item> itemList = this.itemMapper.selectByExample(example);
         PageInfo<Item> pageInfo = new PageInfo<>(itemList);
         return new EasyUIResult(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    public boolean updateItem(Item item, String desc) {
+        Integer count1 = super.updateSelect(item);
+        ItemDesc itemDesc = new ItemDesc();
+        itemDesc.setItemId(item.getId());
+        itemDesc.setItemDesc(desc);
+        Integer count2 = this.itemDescService.updateSelect(itemDesc);
+        return count1.intValue() == 1 && count2.intValue() == 1;
     }
 }
