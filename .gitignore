@@ -1,4 +1,5 @@
 #忽略提交规则文件
 .idea/
 target
+*.iml
 .idea/dataSources.xml
