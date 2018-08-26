@@ -7,6 +7,7 @@ import com.taotao.common.bean.EasyUIResult;
 import com.taotao.manage.mapper.ItemMapper;
 import com.taotao.manage.pojo.Item;
 import com.taotao.manage.pojo.ItemDesc;
+import com.taotao.manage.pojo.ItemParamItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class ItemService extends BaseService<Item> {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private ItemParamItemService itemParamItemService;
+
 
     /**
      * @Description 保存商品
@@ -29,15 +33,19 @@ public class ItemService extends BaseService<Item> {
      * @Param [item, desc]
      * @return boolean
      **/
-    public boolean saveItem(Item item, String desc) {
+    public boolean saveItem(Item item, String desc, String paramJson) {
         item.setStatus(1);
         item.setId(null);
         Integer count1 = super.save(item);
         ItemDesc itemDesc = new ItemDesc();
         itemDesc.setItemId(item.getId());
         itemDesc.setItemDesc(desc);
+        ItemParamItem itemParamItem = new ItemParamItem();
+        itemParamItem.setItemId(item.getId());
+        itemParamItem.setParamData(paramJson);
+        Integer count3 = itemParamItemService.save(itemParamItem);
         Integer count2 = itemDescService.saveSelective(itemDesc);
-        return count1.intValue() == 1 && count2.intValue() == 1;
+        return count1.intValue() == 1 && count2.intValue() == 1 && count3.intValue() ==1;
     }
 
     /**
@@ -57,12 +65,13 @@ public class ItemService extends BaseService<Item> {
         return new EasyUIResult(pageInfo.getTotal(), pageInfo.getList());
     }
 
-    public boolean updateItem(Item item, String desc) {
+    public boolean updateItem(Item item, String desc, String paramJson) {
         Integer count1 = super.updateSelect(item);
         ItemDesc itemDesc = new ItemDesc();
         itemDesc.setItemId(item.getId());
         itemDesc.setItemDesc(desc);
         Integer count2 = this.itemDescService.updateSelect(itemDesc);
-        return count1.intValue() == 1 && count2.intValue() == 1;
+        Integer count3 = itemParamItemService.updateItemParamItem(item.getId(),paramJson);
+        return count1.intValue() == 1 && count2.intValue() == 1 && count3.intValue() ==1;
     }
 }

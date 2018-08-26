@@ -33,12 +33,12 @@ public class ItemController {
     * @return org.springframework.http.ResponseEntity<java.lang.Void>
     **/
     @RequestMapping(method = RequestMethod.POST)
-    private ResponseEntity<Void> saveItem(Item item, @RequestParam("desc") String desc){
+    private ResponseEntity<Void> saveItem(Item item, @RequestParam("desc") String desc, @RequestParam("itemParams")String paramJson){
         if(null == item){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            boolean bool = itemService.saveItem(item,desc);
+            boolean bool = itemService.saveItem(item, desc, paramJson);
            if(!bool){
                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
            }
@@ -49,6 +49,11 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
+    /**
+     * @Description 查询商品列表
+     * @Param [page, rows]
+     * @return org.springframework.http.ResponseEntity<com.taotao.common.bean.EasyUIResult>
+     **/
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<EasyUIResult> queryItemList(
             @RequestParam(value = "page",defaultValue = "1") Integer page,
@@ -64,13 +69,18 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
+    /**
+     * @Description 修改商品
+     * @Param [item, desc]
+     * @return org.springframework.http.ResponseEntity<java.lang.Void>
+     **/
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateItem(Item item, @RequestParam("desc") String desc){
+    public ResponseEntity<Void> updateItem(Item item, @RequestParam("desc") String desc, @RequestParam("itemParams")String paramJson){
         if(null == item){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            boolean bool = itemService.updateItem(item,desc);
+            boolean bool = itemService.updateItem(item, desc, paramJson);
             if(!bool){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }

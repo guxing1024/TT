@@ -44,7 +44,7 @@ public class ItemParamController {
             if (null == itemParam1){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            return ResponseEntity.ok(itemParam);
+            return ResponseEntity.ok(itemParam1);
         } catch (Exception e) {
             e.printStackTrace();
         }
