@@ -21,3 +21,6 @@ target
  *.zip
  *.tar.gz
  *.rar
+
+ #数据库
+ jdbc.properties
